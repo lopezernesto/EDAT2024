@@ -5,6 +5,12 @@ import java.util.Scanner;
 //import lineales.dinamicas.Pila;
 import lineales.estaticas.Pila;
 
+/*
+ * FAI-1990 Lopez Ernesto
+ * FAI-3666 Fuentes Santino
+ * FAI-2086 Novoa Facundo
+ */
+
 public class TestPila {
     public static void menu() {
         System.out.println("---------------------------------");
