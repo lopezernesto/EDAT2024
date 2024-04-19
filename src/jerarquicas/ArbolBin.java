@@ -8,9 +8,6 @@ public class ArbolBin {
     public ArbolBin() {
         /*
          * 
-         * insertarPorPosicion(elemNuevo, posPadre, posHijo): boolean
-         * 
-         * altura(): int
          * nivel(elemento): int
          * padre(elemento): elemPadre
          * listarPreorden(): lista de elementos
@@ -37,14 +34,13 @@ public class ArbolBin {
         } else {
             NodoArbol padre = obtenerNodo(raiz, elemPadre);
             if (padre != null) {
-                NodoArbol nuevo = new NodoArbol(elemPadre, null, null);
+                NodoArbol nuevo = new NodoArbol(elem, null, null);
                 if (postHijo == 0) {
                     if (padre.getIzquierdo() == null) {
                         padre.setIzquierdo(nuevo);
                         exit = true;
                     }
-                }
-                if (postHijo == 1) {
+                } else if (postHijo == 1) {
                     if (padre.getDerecho() == null) {
                         padre.setDerecho(nuevo);
                         exit = true;
@@ -76,36 +72,84 @@ public class ArbolBin {
     public boolean insertarPorPosicion(Object elemNuevo, int posPadre, int posHijo) {
         // posHijo ---> 0 = izquierda 1 = derecha
         boolean exit = false;
-        NodoArbol padre = obtenerNodoPos(raiz, posPadre, 0);
-        if (padre != null) {
-            NodoArbol nuevo = new NodoArbol(elemNuevo, null, null);
-            if (posHijo == 0 && padre.getIzquierdo() == null) {
-                padre.setIzquierdo(nuevo);
-                exit = true;
-            } else if (posHijo == 1 && padre.getDerecho() == null) {
-                padre.setDerecho(nuevo);
-                exit = true;
+        if (!esVacio()) {
+            int[] cant = { 1 };
+            NodoArbol padre = obtenerNodoPos(raiz, posPadre, cant);
+            if (padre != null) {
+                NodoArbol nuevo = new NodoArbol(elemNuevo, null, null);
+                if (posHijo == 0 && padre.getIzquierdo() == null) {
+                    padre.setIzquierdo(nuevo);
+                    exit = true;
+                } else if (posHijo == 1 && padre.getDerecho() == null) {
+                    padre.setDerecho(nuevo);
+                    exit = true;
+                }
             }
+        } else {
+            raiz = new NodoArbol(elemNuevo, null, null);
         }
         return exit;
 
     }
 
-    private NodoArbol obtenerNodoPos(NodoArbol n, int posPadre, int cant) {
+    private NodoArbol obtenerNodoPos(NodoArbol n, int posPadre, int[] cant) {
         NodoArbol resultado = null;
         if (n != null) {
-            if (cant == posPadre) {
+            if (cant[0] == posPadre) {
                 resultado = n;
             } else {
                 // Busco por Hijo Izquierdo
-                resultado = obtenerNodoPos(n.getIzquierdo(), posPadre, cant + 1);
+                cant[0] += 1;
+                resultado = obtenerNodoPos(n.getIzquierdo(), posPadre, cant);
                 if (resultado == null) {
                     // Si no encontro busco en Hijo Derecho
-                    resultado = obtenerNodoPos(n.getDerecho(), posPadre, cant + 1);
+                    resultado = obtenerNodoPos(n.getDerecho(), posPadre, cant);
                 }
             }
         }
         return resultado;
+    }
+
+    // Altura es la cantidad de nodos desde la raiz hasta la hoja mas lejana
+    public int altura() {
+        int total = -1, izq = 0, der = 0;
+        if (!esVacio()) {
+            total = alturaAux(raiz);
+        }
+        return total;
+    }
+
+    public int alturaAux(NodoArbol n) {
+        int total = -1, der, izq;
+        if (n != null) {
+            if (n.getDerecho() == null && n.getDerecho() == null) {
+                total = 0;
+            } else {
+                izq = alturaAux(n.getIzquierdo()) + 1;
+                der = alturaAux(n.getDerecho()) + 1;
+                total = Math.max(izq, der);
+            }
+        }
+
+        return total;
+    }
+
+    public Object padre(Object elem) {
+        String cad = "no tiene padre";
+        Object ret = cad;
+        if (!esVacio() && raiz.getElem().equals(elem)) {
+            ret = buscarPadre(raiz, elem).getElem();
+        }
+        return ret;
+    }
+
+    private NodoArbol buscarPadre(NodoArbol n, Object elem) {
+        if (n != null) {
+            if (n.getIzquierdo().getElem().equals(elem) && n.getDerecho().getElem().equals(elem)) {
+
+            }
+        }
+        return n;
     }
 
     public Lista listarPreorden() {
@@ -125,4 +169,31 @@ public class ArbolBin {
         }
     }
 
+    public String toString() {
+        String cad = "Arbol vacio";
+        if (!esVacio()) {
+            cad = toStringAux(raiz);
+        }
+        return cad;
+    }
+
+    public String toStringAux(NodoArbol n) {
+        String cad = "";
+        if (n != null) {
+            cad += "(" + n.getElem() + ") -> ";
+            if (n.getIzquierdo() != null) {
+                cad += "HI: " + n.getIzquierdo().getElem() + "  ";
+            } else {
+                cad += "HI: -  ";
+            }
+            if (n.getDerecho() != null) {
+                cad += "HD: " + n.getDerecho().getElem() + "\n";
+            } else {
+                cad += "HD: - \n";
+            }
+            cad += toStringAux(n.getIzquierdo());
+            cad += toStringAux(n.getDerecho());
+        }
+        return cad;
+    }
 }
