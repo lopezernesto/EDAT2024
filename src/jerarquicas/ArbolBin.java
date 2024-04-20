@@ -144,12 +144,18 @@ public class ArbolBin {
     }
 
     private NodoArbol buscarPadre(NodoArbol n, Object elem) {
+        NodoArbol resultado = null;
         if (n != null) {
-            if (n.getIzquierdo().getElem().equals(elem) && n.getDerecho().getElem().equals(elem)) {
-
+            if (n.getIzquierdo().getElem().equals(elem) || n.getDerecho().getElem().equals(elem)) {
+                resultado = n;
+            } else {
+                resultado = buscarPadre(n.getIzquierdo(), elem);
+                if (resultado == null) {
+                    resultado = buscarPadre(n.getDerecho(), elem);
+                }
             }
         }
-        return n;
+        return resultado;
     }
 
     public Lista listarPreorden() {
