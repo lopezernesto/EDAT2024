@@ -19,6 +19,7 @@ public class TestArbolBin {
         System.out.println(a.insertarPorPosicion(8, 6, 1));
         System.out.println(a.toString());
         System.out.println(a.altura());
+        System.out.println(a.nivel(4));
 
     }
 }

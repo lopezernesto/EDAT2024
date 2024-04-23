@@ -9,15 +9,73 @@ public class ArbolBin {
         /*
          * 
          * nivel(elemento): int
-         * padre(elemento): elemPadre
-         * listarPreorden(): lista de elementos
          * listarInorden(): lista de elementos
          * listarPosorden(): lista de elementos
          * listarNiveles(): lista de elementos
          * clone(): ArbolBinario
-         * vaciar () : void
-         * toString(): String
          */
+    }
+
+    public int nivel(Object elem) {
+        int ret = -1;
+        if (!esVacio()) {
+            ret = nivelAux(raiz, elem);
+        }
+        return ret;
+    }
+
+    public int nivelAux(NodoArbol n, Object elem) {
+        int nivel = -1;
+        boolean encontrado = false;
+        if (n != null) {
+            if (n.getElem().equals(elem)) {
+                nivel = 0;
+                encontrado = true;
+            } else {
+                nivel = nivelAux(n.getIzquierdo(), elem);
+                if (!encontrado && nivel != -1) {
+                    nivel++; // Incrementa nivel si el elemento se encuentra en el subárbol izquierdo.
+                    encontrado = true;
+                } else if (!encontrado) {
+                    nivel = nivelAux(n.getDerecho(), elem);
+                    if (nivel != -1) {
+                        nivel++; // Incrementa nivel si el elemento se encuentra en el subárbol derecho.
+                        encontrado = true;
+                    }
+                }
+            }
+        }
+        return nivel;
+    }
+
+    public int nivelAux1(NodoArbol n, Object elem) {
+        int nivel = -1;
+        boolean encontrado = false;
+        if (n != null) {
+            if (n.getElem().equals(elem)) {
+                nivel = 0;
+                encontrado = true;
+            } else {
+
+                nivel = nivelAux1(n.getIzquierdo(), elem);
+                if (encontrado) {
+                    nivel += 1;
+                    encontrado = true;
+                } else {
+                    nivel = nivelAux1(n.getDerecho(), elem);
+                    if (encontrado) {
+                        encontrado = true;
+                        nivel++;
+                    }
+                }
+            }
+        }
+
+        return nivel;
+    }
+
+    public void vaciar() {
+        raiz = null;
     }
 
     public boolean esVacio() {
