@@ -129,4 +129,56 @@ public class Lista {
         }
         return cad;
     }
+
+    public Lista obtenerMultiplos(int num) {
+        Lista l = new Lista();
+        if (!esVacia()) {
+            // clon es el nodo que recorre mi nueva lista
+            // aux recorre la lista original
+            Nodo aux = cabecera, clon = null;
+            int i = 1, longitud = 1;
+            while (aux != null) {
+                if (i % num == 0) {
+                    Nodo nuevo = new Nodo(aux.getElem(), null);
+                    if (longitud > 1) {
+                        clon.setEnlace(nuevo);
+                        clon = clon.getEnlace();
+                    } else {
+                        l.cabecera = nuevo;
+                        clon = l.cabecera;
+                    }
+                    longitud++;
+                }
+                aux = aux.getEnlace();
+                i++;
+            }
+            l.longitud = longitud;
+        }
+        return l;
+    }
+
+    public void eliminarApariciones(Object elem) {
+        int cant = 0;
+        boolean bandera = true;
+        Nodo aux = cabecera, siguiente = aux.getEnlace();
+        while (aux != null) {
+            // bandera = true indica que lo que modifico esta en la cabecera
+            if (bandera) {
+                if (aux.getElem().equals(elem)) {
+                    aux = aux.getEnlace();
+                    siguiente = aux.getEnlace();
+                }
+            }
+        }
+        longitud -= cant;
+    }
+    /*
+     * b) Agregar al TDA Lista la operación eliminarApariciones(TipoElemento x) que
+     * elimine todas las apariciones de
+     * elementos iguales a x, haciendo un único recorrido de la estructura y sin
+     * usar otras operaciones del TDA.
+     * • Consideraciones ejercicio 1 a y b:
+     * ◦ Realizar la definición de tipos de todas las clases involucradas
+     * ◦ En todas las operaciones recorrer lo menos posible las estructuras
+     */
 }
