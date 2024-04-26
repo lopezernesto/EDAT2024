@@ -167,6 +167,7 @@ public class Lista {
                 if (aux.getElem().equals(elem)) {
                     aux = aux.getEnlace();
                     siguiente = aux.getEnlace();
+                    if(aux)
                 }
             }
         }
