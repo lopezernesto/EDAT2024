@@ -7,16 +7,16 @@ public class TestLista {
         Lista l = new Lista(), x;
         l.insertar('A', 1);
         l.insertar('B', 2);
-        l.insertar('C', 3);
+        l.insertar('A', 3);
         l.insertar('D', 4);
         l.insertar('E', 5);
         l.insertar('F', 6);
         l.insertar('G', 7);
         l.insertar('H', 8);
-        l.insertar('I', 9);
+        l.insertar('A', 9);
         System.out.println(l.toString());
-        x = l.obtenerMultiplos(3);
-        System.out.println(x.toString());
+        l.eliminarApariciones('A');
+        System.out.println(l.toString());
         /*
          * System.out.println(l.insertar(1, 1) + " inserto 1");
          * System.out.println(l.insertar(2, 1) + " inserto 2");
