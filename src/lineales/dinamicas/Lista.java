@@ -130,6 +130,10 @@ public class Lista {
         return cad;
     }
 
+    /*
+     * Este metodo obtiene una nueva lista con los elementos de las posiciones
+     * que sean multiplos de 'num'
+     */
     public Lista obtenerMultiplos(int num) {
         Lista l = new Lista();
         if (!esVacia()) {
@@ -157,29 +161,26 @@ public class Lista {
         return l;
     }
 
+    // Elimina la cantidad de apariciones de 'elem' en la lista
     public void eliminarApariciones(Object elem) {
         int cant = 0;
-        boolean bandera = true;
-        Nodo aux = cabecera, siguiente = aux.getEnlace();
-        while (aux != null) {
-            // bandera = true indica que lo que modifico esta en la cabecera
-            if (bandera) {
-                if (aux.getElem().equals(elem)) {
-                    aux = aux.getEnlace();
-                    siguiente = aux.getEnlace();
-                    if(aux)
+        Nodo actual = cabecera, previo = null;
+        while (actual != null) {
+            // previo=null indica que lo que estoy en la cabecera
+            if (actual.getElem().equals(elem)) {
+                cant++;
+                if (previo == null) {
+                    cabecera = cabecera.getEnlace();
+                    actual = cabecera;
+                } else {
+                    actual = actual.getEnlace();
+                    previo.setEnlace(actual);
                 }
+            } else {
+                previo = actual;
+                actual = actual.getEnlace();
             }
         }
         longitud -= cant;
     }
-    /*
-     * b) Agregar al TDA Lista la operación eliminarApariciones(TipoElemento x) que
-     * elimine todas las apariciones de
-     * elementos iguales a x, haciendo un único recorrido de la estructura y sin
-     * usar otras operaciones del TDA.
-     * • Consideraciones ejercicio 1 a y b:
-     * ◦ Realizar la definición de tipos de todas las clases involucradas
-     * ◦ En todas las operaciones recorrer lo menos posible las estructuras
-     */
 }
