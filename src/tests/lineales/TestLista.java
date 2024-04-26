@@ -4,7 +4,7 @@ import lineales.dinamicas.Lista;
 
 public class TestLista {
     public static void main(String[] args) {
-        Lista l = new Lista(), x;
+        Lista l = new Lista();
         l.insertar('A', 1);
         l.insertar('B', 2);
         l.insertar('A', 3);

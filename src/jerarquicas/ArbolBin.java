@@ -16,6 +16,31 @@ public class ArbolBin {
          */
     }
 
+    public boolean equals(ArbolBin otro) {
+        boolean iguales = false;
+        if (!((raiz != null && otro.raiz == null) && (raiz == null && otro != null))) {
+            iguales = equalsAux(raiz, otro.raiz);
+        }
+        return iguales;
+    }
+
+    private boolean equalsAux(NodoArbol original, NodoArbol otro) {
+        boolean exit = true;
+        System.out.println("entre aca");
+        if (original != null & otro != null) {
+            if (!original.getElem().equals(otro.getElem())) {
+                System.out.println("estoy aca " + original.getElem() + otro.getElem());
+                exit = false;
+            } else {
+                exit = equalsAux(original.getIzquierdo(), otro.getIzquierdo());
+                if (exit) {
+                    exit = equalsAux(original.getDerecho(), otro.getDerecho());
+                }
+            }
+        }
+        return exit;
+    }
+
     public int nivel(Object elem) {
         int ret = -1;
         if (!esVacio()) {
@@ -170,7 +195,7 @@ public class ArbolBin {
 
     // Altura es la cantidad de nodos desde la raiz hasta la hoja mas lejana
     public int altura() {
-        int total = -1, izq = 0, der = 0;
+        int total = -1;
         if (!esVacio()) {
             total = alturaAux(raiz);
         }
@@ -260,4 +285,5 @@ public class ArbolBin {
         }
         return cad;
     }
+
 }
