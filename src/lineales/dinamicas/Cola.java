@@ -75,36 +75,4 @@ public class Cola {
         }
         return cad;
     }
-
-    /*
-     * c) En una clase TestCadenas, que utilice los TDA Lista, Pila y Cola vistos en
-     * la materia, para guardar elementos
-     * de tipo CHAR, implementar el método generar (Cola c1) que recibe por
-     * parámetro una estructura cola c1
-     * que tiene el siguiente formato: a1#a2#a3#….#an, donde cada ai en una sucesión
-     * de letras mayúsculas y a
-     * partir de c1 debe generar como salida otra Cola de la forma:
-     * a1a1´a1#a2a2´a2#….#anan´an donde cada ai´ es la
-     * secuencia de letras mayúsculas ai pero invertida. Ejemplo.: Si c1 es :
-     * AB#C#DEF , entonces la operación
-     * generar devolverá una Cola con el siguiente formato: ABBAAB#CCC#DEFFEDDEF.
-     */
-    public Cola generar(Cola c1) {
-        Cola c = new Cola();
-        if (!esVacia()) {
-            boolean bandera = true; // bandera = true significa que estoy en el primer elemento
-            Nodo original = frente, otro = c.frente;
-            while (original != null) {
-                String cad = transformar(original.getElem());
-            }
-
-        }
-        return c;
-    }
-
-    private String transformar(Object elem) {
-        String cad = "";
-
-        return cad;
-    }
 }

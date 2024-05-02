@@ -1,10 +1,16 @@
 package tests.jerarquicas;
 
 import jerarquicas.ArbolBin;
+import lineales.dinamicas.Lista;
 
 public class TestArbolBin {
     public static void main(String[] args) {
         ArbolBin a = new ArbolBin(), b = new ArbolBin();
+        Lista l = new Lista();
+        l.insertar(1, 1);
+        l.insertar(3, 2);
+        l.insertar(5, 3);
+
         System.out.println(a.toString());
         System.out.println(a.insertar(1, 0, 0));
         System.out.println(a.insertar(2, 1, 0));
@@ -29,6 +35,8 @@ public class TestArbolBin {
         b.insertar(7, 3, 1);
         b.insertarPorPosicion(8, 6, 1);
         System.out.println(a.equals(b));
+        // System.out.println(a.verificarPatron(l));
+        System.out.println(a.frontera().toString());
 
     }
 }

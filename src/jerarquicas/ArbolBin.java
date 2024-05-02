@@ -286,4 +286,55 @@ public class ArbolBin {
         return cad;
     }
 
+    public boolean verificarPatron(Lista patron) {
+        boolean exit = false;
+        int longitud = patron.longitud();
+        if (raiz == null && longitud == 0) {
+            exit = true;
+        } else {
+            exit = verificarPatronAux(patron, raiz, 1, longitud);
+        }
+        return exit;
+    }
+
+    private boolean verificarPatronAux(Lista patron, NodoArbol n, int pos, int longitud) {
+        boolean exit = false;
+        if (n != null) {
+            exit = true;
+            if (pos <= longitud) {
+                Object elem = patron.recuperar(pos);
+                if (n.getElem().equals(elem)) {
+                    exit = verificarPatronAux(patron, n.getIzquierdo(), pos + 1, longitud);
+                    if (!exit) {
+                        exit = verificarPatronAux(patron, n.getDerecho(), pos + 1, longitud);
+                    }
+                } else {
+                    exit = false;
+                }
+            } else {
+                // si pos>longitud es porque el nodo tenia un hijo
+                exit = false;
+            }
+        }
+        return exit;
+    }
+
+    public Lista frontera() {
+        Lista lista = new Lista();
+        if (raiz != null) {
+            fronteraAux(raiz, lista);
+        }
+        return lista;
+    }
+
+    public void fronteraAux(NodoArbol n, Lista lista) {
+        if (n != null) {
+            if (n.getDerecho() == null && n.getIzquierdo() == null) {
+                lista.insertar(n.getElem(), lista.longitud() + 1);
+            } else {
+                fronteraAux(n.getIzquierdo(), lista);
+                fronteraAux(n.getDerecho(), lista);
+            }
+        }
+    }
 }
