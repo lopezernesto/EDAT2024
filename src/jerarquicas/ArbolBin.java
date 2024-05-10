@@ -26,10 +26,8 @@ public class ArbolBin {
 
     private boolean equalsAux(NodoArbol original, NodoArbol otro) {
         boolean exit = true;
-        System.out.println("entre aca");
         if (original != null & otro != null) {
             if (!original.getElem().equals(otro.getElem())) {
-                System.out.println("estoy aca " + original.getElem() + otro.getElem());
                 exit = false;
             } else {
                 exit = equalsAux(original.getIzquierdo(), otro.getIzquierdo());
@@ -336,5 +334,23 @@ public class ArbolBin {
                 fronteraAux(n.getDerecho(), lista);
             }
         }
+    }
+
+    public ArbolBin clone() {
+        ArbolBin clonado = new ArbolBin();
+        if (!esVacio()) {
+            clonado.raiz = cloneAux(raiz);
+        }
+        return clonado;
+    }
+
+    private NodoArbol cloneAux(NodoArbol n) {
+        NodoArbol nuevo = null;
+        if (n != null) {
+            nuevo = new NodoArbol(n.getElem(), null, null);
+            nuevo.setIzquierdo(cloneAux(n.getIzquierdo()));
+            nuevo.setDerecho(cloneAux(n.getDerecho()));
+        }
+        return nuevo;
     }
 }

@@ -5,7 +5,7 @@ import lineales.dinamicas.Lista;
 
 public class TestArbolBin {
     public static void main(String[] args) {
-        ArbolBin a = new ArbolBin(), b = new ArbolBin();
+        ArbolBin a = new ArbolBin(), b = new ArbolBin(), c = new ArbolBin();
         Lista l = new Lista();
         l.insertar(1, 1);
         l.insertar(3, 2);
@@ -35,8 +35,10 @@ public class TestArbolBin {
         b.insertar(7, 3, 1);
         b.insertarPorPosicion(8, 6, 1);
         System.out.println(a.equals(b));
-        // System.out.println(a.verificarPatron(l));
+        System.out.println(a.verificarPatron(l));
         System.out.println(a.frontera().toString());
+        // c = a.clone();
+        // System.out.println(c.toString());
 
     }
 }
