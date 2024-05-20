@@ -7,8 +7,6 @@ public class ArbolGen {
 
     public ArbolGen() {
         /*
-         * 
-         * altura()
          * nivel(obj)
          * ancestro(obj)
          * clone()
@@ -21,8 +19,57 @@ public class ArbolGen {
          */
     }
 
+    // Preguntar sobre el (pertenece)
+    public Lista ancestros(Object elem) {
+        Lista l = new Lista();
+        if (!esVacio() && pertenece(elem)) {
+            ancestrosAux(raiz, elem, l);
+        }
+        return l;
+    }
+
+    private boolean ancestrosAux(NodoGen n, Object elem, Lista l) {
+        boolean exit = false;
+        if (n != null) {
+            NodoGen hijo = n.getHijoIzquierdo();
+            if (hijo.getElem().equals(elem)) {
+                l.insertar(elem, 1);
+                exit = true;
+            } else {
+                hijo = hijo.getHermanoDerecho();
+                while (hijo != null) {
+                    hijo = hijo.getHermanoDerecho();
+                    exit = ancestrosAux(hijo, elem, l);
+                }
+            }
+        }
+        return exit;
+    }
+
     public int altura() {
-        return -1;
+        int alt = -1;
+        if (!esVacio()) {
+            alt = alturaAux(raiz);
+        }
+        return alt;
+    }
+
+    private int alturaAux(NodoGen n) {
+        int altura = 0, altMaxHijos = 0;
+        if (n != null) {
+            NodoGen hijo = n.getHijoIzquierdo();
+            while (hijo != null) {
+                int altHijo = alturaAux(hijo);
+                hijo = hijo.getHermanoDerecho();
+                if (altHijo > altMaxHijos) {
+                    altMaxHijos = altHijo;
+                }
+            }
+            altura = altMaxHijos + 1;
+        }
+
+        return altura;
+
     }
 
     public boolean esVacio() {
