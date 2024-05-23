@@ -32,6 +32,26 @@ public class ArbolGen {
             nuevo = new NodoGen(n.getElem(), null, null);
             NodoGen hijo = n.getHijoIzquierdo();
             if (hijo != null) {
+                nuevo.setHijoIzquierdo(cloneAux(hijo));
+                NodoGen hijoClon = nuevo.getHijoIzquierdo();
+                NodoGen hermano = hijo.getHermanoDerecho();
+                while (hermano != null) {
+                    hijoClon.setHermanoDerecho(cloneAux(hermano));
+                    hijoClon = hijoClon.getHermanoDerecho();
+                    hermano = hermano.getHermanoDerecho();
+                }
+            }
+        }
+        return nuevo;
+    }
+
+    // Preguntar cual es el problema
+    private NodoGen cloneAux1(NodoGen n) {
+        NodoGen nuevo = null;
+        if (n != null) {
+            nuevo = new NodoGen(n.getElem(), null, null);
+            NodoGen hijo = n.getHijoIzquierdo();
+            if (hijo != null) {
                 NodoGen hijoClon = new NodoGen(hijo.getElem(), null, null);
                 nuevo.setHijoIzquierdo(hijoClon);
                 hijo = hijo.getHermanoDerecho();
@@ -42,7 +62,7 @@ public class ArbolGen {
                 }
                 hijo = n.getHijoIzquierdo();
                 hijoClon = nuevo.getHijoIzquierdo();
-                nuevo.setHijoIzquierdo(hijo);
+                // nuevo.setHijoIzquierdo(hijo);
                 while (hijo != null) {
                     hijoClon = (cloneAux(hijo));
                     hijo = hijo.getHermanoDerecho();
