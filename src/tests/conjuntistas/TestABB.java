@@ -12,9 +12,9 @@ public class TestABB {
         a.insertar(7);
         a.insertar(15);
         a.insertar(25);
-        a.insertar(18);
+        a.insertar(8);
         System.out.println(a.toString());
-        System.out.println(a.eliminar(15));
+        System.out.println(a.eliminar(7));
         System.out.println(a.toString());
 
     }

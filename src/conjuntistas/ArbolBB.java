@@ -9,7 +9,7 @@ public class ArbolBB {
 
     }
 
-    public boolean eliminar(Object elem) {
+    public boolean eliminar(Comparable elem) {
         boolean exit = false;
         if (!esVacio()) {
             // Si el elemento a eliminar esta en la raiz
@@ -17,62 +17,63 @@ public class ArbolBB {
 
             } else {
                 // Si no esta en la raiz busco al padre
-                NodoABB padre = buscarPadre(raiz, elem);
-                exit = eliminarAux(padre, elem);
+                exit = eliminarAux(raiz, elem, null);
             }
 
         }
         return exit;
     }
 
-    private int cantHijos(NodoABB n) {
-        int cant = -1;
-        if (n.getDerecho() != null && n.getIzquierdo() != null) {
-            cant = 3;
-        } else {
-            if (n.getIzquierdo() != null) {
-                cant = 2;
+    private boolean eliminarAux(NodoABB n, Comparable elem, NodoABB padre) {
+        boolean exit = false;
+        if (n != null) {
+            int aux = n.getElem().compareTo(elem);
+            if (aux == 0) {
+                eliminarHijo(padre, n);
+                exit = true;
             } else {
-                if (n.getDerecho() != null) {
-                    cant = 1;
-                }
+                if (aux > 0) {
+                    exit = eliminarAux(n.getIzquierdo(), elem, n);
+                } else {
 
+                    exit = eliminarAux(n.getDerecho(), elem, n);
+                }
             }
+
         }
-        System.out.println("estoy aca " + cant);
-        return cant;
+        return exit;
     }
 
-    private void eliminarHijo(NodoABB padre, NodoABB hijo, int pos) {
-        // pos 1 significa que lo mando para el hijo derecho
-        int a = cantHijos(hijo);
-        switch (a) {
+    private void eliminarHijo(NodoABB padre, NodoABB aEliminar) {
+        // pos 1 significa hijo=p.getHD();
+        // pos 0 significa hijo=p.getHI();
+        int temp = padre.getElem().compareTo(aEliminar.getElem());
+        switch (cantHijos(aEliminar)) {
+            // no tiene hijos
             case -1:
-                // no tiene hijos
-                if (pos == 0)
+                if (temp > 0) {
                     padre.setIzquierdo(null);
-                else {
+                } else {
                     padre.setDerecho(null);
                 }
                 break;
+            // tiene un hijo
             case 1:
-                // tiene hijo derecho
-                if (pos == 1)
-                    padre.setDerecho(hijo.getDerecho());
-                else {
-                    padre.setDerecho(hijo.getIzquierdo());
+                NodoABB aux;
+                if (aEliminar.getIzquierdo() != null) {
+                    aux = aEliminar.getIzquierdo();
+                } else {
+                    aux = aEliminar.getDerecho();
+                }
+                if (temp > 0) {
+                    padre.setIzquierdo(aux);
+                } else {
+                    padre.setDerecho(aux);
                 }
                 break;
+            // tiene dos hijos
             case 2:
-                // tiene hijo izquierdo
-                if (pos == 1)
-                    padre.setIzquierdo(hijo.getIzquierdo());
-                else {
-                    padre.setIzquierdo(hijo.getDerecho());
-                }
-                break;
-            case 3:
-                // tiene dos hijos
+                mayorIzquierda(aEliminar, aEliminar.getElem(), padre);
                 break;
 
             default:
@@ -80,40 +81,41 @@ public class ArbolBB {
         }
     }
 
-    private boolean eliminarAux(NodoABB padre, Object elem) {
-        boolean exit = true;
-        int aux = padre.getElem().compareTo(elem);
-        if (aux > 0) {
-            // el elemento a elminar es el hijo izquierdo
-            NodoABB hijo = padre.getIzquierdo();
-            eliminarHijo(padre, hijo, 0);
+    private int cantHijos(NodoABB n) {
+        int cant = -1;
+        if (n.getDerecho() != null && n.getIzquierdo() != null) {
+            cant = 2;
         } else {
-            // es el hijo derecho
-            NodoABB hijo = padre.getDerecho();
-            eliminarHijo(padre, hijo, 1);
-        }
-        return exit;
-    }
-
-    private NodoABB buscarPadre(NodoABB n, Object elem) {
-        NodoABB resultado = null;
-        if (n != null) {
-            if (n.getIzquierdo().getElem().equals(elem) || n.getDerecho().getElem().equals(elem)) {
-                resultado = n;
-            } else {
-                int aux = n.getElem().compareTo(elem);
-                if (aux > 0) {
-                    resultado = buscarPadre(n.getIzquierdo(), elem);
-                } else {
-
-                    resultado = buscarPadre(n.getDerecho(), elem);
-                }
+            if (n.getIzquierdo() != null || n.getDerecho() != null) {
+                cant = 1;
             }
-
         }
-        return resultado;
+        return cant;
     }
 
+    public void mayorIzquierda(NodoABB candidato, Comparable elem, NodoABB padre) {
+        int aux = candidato.getElem().compareTo(elem);
+        if (aux > 0) {
+
+        }
+    }
+
+    /*
+     * private void eliminarAux(NodoABB padre, NodoABB hijo) {
+     * int aux = padre.getElem().compareTo(elem);
+     * if (aux > 0) {
+     * // el elemento a elminar es el hijo izquierdo
+     * NodoABB hijo = padre.getIzquierdo();
+     * eliminarHijo(padre, hijo, 0);
+     * 
+     * } else {
+     * // es el hijo derecho
+     * NodoABB hijo = padre.getDerecho();
+     * eliminarHijo(padre, hijo, 1);
+     * 
+     * }
+     * }
+     */
     public boolean insertar(Comparable elem) {
         boolean exit = false;
         if (esVacio()) {
