@@ -13,8 +13,8 @@ public class ArbolBB {
         boolean exit = false;
         if (!esVacio()) {
             // Si el elemento a eliminar esta en la raiz
-            if (raiz.equals(elem)) {
-
+            if (raiz.getElem().compareTo(elem) == 0) {
+                eliminarHijo(null, raiz);
             } else {
                 // Si no esta en la raiz busco al padre
                 exit = eliminarAux(raiz, elem, null);
@@ -45,12 +45,11 @@ public class ArbolBB {
     }
 
     private void eliminarHijo(NodoABB padre, NodoABB aEliminar) {
-        // pos 1 significa hijo=p.getHD();
-        // pos 0 significa hijo=p.getHI();
-        int temp = padre.getElem().compareTo(aEliminar.getElem());
+        int temp;
         switch (cantHijos(aEliminar)) {
             // no tiene hijos
-            case -1:
+            case 0:
+                temp = padre.getElem().compareTo(aEliminar.getElem());
                 if (temp > 0) {
                     padre.setIzquierdo(null);
                 } else {
@@ -59,6 +58,7 @@ public class ArbolBB {
                 break;
             // tiene un hijo
             case 1:
+                temp = padre.getElem().compareTo(aEliminar.getElem());
                 NodoABB aux;
                 if (aEliminar.getIzquierdo() != null) {
                     aux = aEliminar.getIzquierdo();
@@ -73,7 +73,8 @@ public class ArbolBB {
                 break;
             // tiene dos hijos
             case 2:
-                mayorIzquierda(aEliminar, aEliminar.getElem(), padre);
+                Comparable candidato = mayorIzquierda(aEliminar.getIzquierdo(), aEliminar);
+                aEliminar.setElem(candidato);
                 break;
 
             default:
@@ -82,7 +83,7 @@ public class ArbolBB {
     }
 
     private int cantHijos(NodoABB n) {
-        int cant = -1;
+        int cant = 0;
         if (n.getDerecho() != null && n.getIzquierdo() != null) {
             cant = 2;
         } else {
@@ -93,11 +94,15 @@ public class ArbolBB {
         return cant;
     }
 
-    public void mayorIzquierda(NodoABB candidato, Comparable elem, NodoABB padre) {
-        int aux = candidato.getElem().compareTo(elem);
-        if (aux > 0) {
-
+    public Comparable mayorIzquierda(NodoABB n, NodoABB padre) {
+        Comparable candidato;
+        if (n.getDerecho() == null) {
+            candidato = n.getElem();
+            padre.setDerecho(null);
+        } else {
+            candidato = mayorIzquierda(n.getDerecho(), n);
         }
+        return candidato;
     }
 
     /*
@@ -140,6 +145,7 @@ public class ArbolBB {
                 NodoABB hijo = n.getIzquierdo();
                 if (hijo == null) {
                     n.setIzquierdo(nuevo);
+                    exit = true;
                 } else {
                     exit = insertarAux(hijo, elem);
                 }
@@ -148,6 +154,7 @@ public class ArbolBB {
                 NodoABB hijo = n.getDerecho();
                 if (hijo == null) {
                     n.setDerecho(nuevo);
+                    exit = true;
                 } else {
                     exit = insertarAux(hijo, elem);
                 }
@@ -235,21 +242,23 @@ public class ArbolBB {
         }
     }
 
-    public Lista listarRango(int a, int b) {
+    public Lista listarRango(int min, int max) {
         Lista l = new Lista();
-        if (!esVacio() && a < b) {
-            listarRangoMin(l, raiz, a, b);
+        if (!esVacio() && min < max) {
+            listarRangoAux(raiz, min, max, l);
         }
         return l;
     }
 
-    private void listarRangoMin(Lista l, NodoABB n, int min, int max) {
+    private void listarRangoAux(NodoABB n, int min, int max, Lista l) {
         if (n != null) {
-            int aux = n.getElem().compareTo(min);
-            if (aux > 0) {
-                NodoABB hijo = n.getIzquierdo();
-
-                listarRangoMin(l, hijo, min, max);
+            if (n.getElem().compareTo(min) > 0) {
+                listarRangoAux(n.getIzquierdo(), min, max, l);
+            }
+            if ((n.getElem().compareTo(min) >= 0) && (n.getElem().compareTo(max) <= 0))
+                l.insertar(n.getElem(), l.longitud() + 1);
+            if (n.getElem().compareTo(max) < 0) {
+                listarRangoAux(n.getDerecho(), min, max, l);
             }
         }
     }
