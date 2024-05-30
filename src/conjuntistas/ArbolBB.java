@@ -243,13 +243,15 @@ public class ArbolBB {
 
     private void listarRangoAux(NodoABB n, Lista l, int min, int max) {
         if (n != null) {
-            if (n.getElem().compareTo(min) >= 0) {
+            System.out.println("entre con nodo: " + n.getElem());
+            if (n.getElem().compareTo(min) > 0) {
                 listarRangoAux(n.getIzquierdo(), l, min, max);
 
             }
-            if (n.getElem().compareTo(max) <= 0) {
-                if ((n.getElem().compareTo(min) >= 0) && (n.getElem().compareTo(max) <= 0))
-                    l.insertar(n.getElem(), l.longitud() + 1);
+            if ((n.getElem().compareTo(min) >= 0) && (n.getElem().compareTo(max) <= 0)) {
+                l.insertar(n.getElem(), l.longitud() + 1);
+            }
+            if (n.getElem().compareTo(max) < 0) {
                 listarRangoAux(n.getDerecho(), l, min, max);
             }
         }
