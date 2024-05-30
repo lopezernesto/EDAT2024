@@ -241,16 +241,19 @@ public class ArbolBB {
         return l;
     }
 
-    private void listarRangoAux(NodoABB n, Lista lis, Comparable min, Comparable max) {
+    private void listarRangoAux(NodoABB n, Lista l, int min, int max) {
         if (n != null) {
-            if (min.compareTo(n.getElem()) <= 0) {
-                listarRangoAux(n.getIzquierdo(), lis, min, max);
-                if (max.compareTo(n.getElem()) >= 0) {
-                    lis.insertar(n.getElem(), lis.longitud() + 1);
-                    listarRangoAux(n.getDerecho(), lis, min, max);
-                }
+            if (n.getElem().compareTo(min) >= 0) {
+                listarRangoAux(n.getIzquierdo(), l, min, max);
+
+            }
+            if (n.getElem().compareTo(max) <= 0) {
+                if ((n.getElem().compareTo(min) >= 0) && (n.getElem().compareTo(max) <= 0))
+                    l.insertar(n.getElem(), l.longitud() + 1);
+                listarRangoAux(n.getDerecho(), l, min, max);
             }
         }
+
     }
 
     public boolean esVacio() {

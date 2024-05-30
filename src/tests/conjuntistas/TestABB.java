@@ -25,7 +25,7 @@ public class TestABB {
         System.out.println(a.toString());
         a.eliminar(50);
         System.out.println(a.toString());
-        System.out.println(a.listarRango(10, 40).toString());
+        System.out.println(a.listarRango(2, 20).toString());
 
     }
 }
