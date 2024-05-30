@@ -15,15 +15,15 @@ public class TestArbolGen {
         a.insertar(4, 3);
         a.insertar(9, 4);
         // --------------------------------------
-        String s = a.toString();
-        System.out.println(s);
-        System.out.println(a.altura());
-        System.out.println(a.padre(2));
-        System.out.println(a.pertenece(-1));
-        System.out.println(a.listarPreorden().toString());
-        System.out.println(a.ancestros(1).toString());
-        c = a.clone();
-        System.out.println(c.toString());
+
+        // System.out.println(a.altura());
+        // System.out.println(a.padre(2));
+        // System.out.println(a.pertenece(-1));
+        // System.out.println(a.listarPreorden().toString());
+        // System.out.println(a.ancestros(1).toString());
+        // c = a.clone();
+        System.out.println(a.toString());
+        System.out.println(a.listarHastaNivel(1).toString());
 
     }
 }

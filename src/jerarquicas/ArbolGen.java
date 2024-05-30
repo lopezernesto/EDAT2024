@@ -9,13 +9,82 @@ public class ArbolGen {
         /*
          * nivel(obj)
          * 
-         * clone()
+         * 
          * listarPre
          * listarIn
          * listarPos
          * listarPorNivel
-         * toString()
          */
+    }
+
+    // Dado una Lista verifica que sea el camino desde la raiz hasta una hoja
+    public boolean verificarCamino(Lista camino) {
+        boolean exit = false;
+        if (!esVacio()) {
+            Lista aux = camino.clone();
+            exit = verificarCaminoAux(raiz, aux);
+        }
+        return exit;
+    }
+
+    private boolean verificarCaminoAux(NodoGen n, Lista camino) {
+        boolean exit = false;
+        if (n != null) {
+            if (!camino.esVacia()) {
+
+            }
+        }
+        return exit;
+    }
+
+    public Lista listaQueJustificaLaAltura() {
+        Lista lis = new Lista();
+        if (!esVacio()) {
+            listaAlturaAux(raiz, lis, lis);
+        }
+        return lis;
+    }
+
+    private void listaAlturaAux(NodoGen n, Lista actual, Lista res) {
+        if (n != null) {
+            actual.insertar(n.getElem(), actual.longitud() + 1);
+            NodoGen hijo = n.getHijoIzquierdo();
+            if (hijo == null) {
+                Lista clonActual = actual.clone();
+            } else {
+                while (hijo != null) {
+                    listaAlturaAux(hijo, actual, res);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }
+        }
+
+    }
+
+    /*
+     * Dado un numero debe retornar una lista con todos los elementos
+     * que se encuentren entre los niveles [0, nivel]
+     */
+    public Lista listarHastaNivel(int nivel) {
+        Lista l = new Lista();
+        if (!esVacio() && nivel >= 0) {
+            listarNivel(raiz, l, nivel, 0);
+        }
+        return l;
+    }
+
+    private void listarNivel(NodoGen n, Lista l, int nivel, int nivelActual) {
+        if (n != null) {
+            if (nivel >= nivelActual) {
+                l.insertar(n.getElem(), l.longitud() + 1);
+                NodoGen hijo = n.getHijoIzquierdo();
+                nivelActual++;
+                while (hijo != null) {
+                    listarNivel(hijo, l, nivel, nivelActual);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }
+        }
     }
 
     public ArbolGen clone() {
@@ -45,39 +114,10 @@ public class ArbolGen {
         return nuevo;
     }
 
-    // Preguntar cual es el problema
-    private NodoGen cloneAux1(NodoGen n) {
-        NodoGen nuevo = null;
-        if (n != null) {
-            nuevo = new NodoGen(n.getElem(), null, null);
-            NodoGen hijo = n.getHijoIzquierdo();
-            if (hijo != null) {
-                NodoGen hijoClon = new NodoGen(hijo.getElem(), null, null);
-                nuevo.setHijoIzquierdo(hijoClon);
-                hijo = hijo.getHermanoDerecho();
-                while (hijo != null) {
-                    hijoClon.setHermanoDerecho(new NodoGen(hijo.getElem(), null, null));
-                    hijoClon = hijoClon.getHermanoDerecho();
-                    hijo = hijo.getHermanoDerecho();
-                }
-                hijo = n.getHijoIzquierdo();
-                hijoClon = nuevo.getHijoIzquierdo();
-                // nuevo.setHijoIzquierdo(hijo);
-                while (hijo != null) {
-                    hijoClon = (cloneAux(hijo));
-                    hijo = hijo.getHermanoDerecho();
-                }
-            }
-
-        }
-        return nuevo;
-    }
-
     public void vaciar() {
         raiz = null;
     }
 
-    // Preguntar sobre el (pertenece)
     public Lista ancestros(Object elem) {
         Lista l = new Lista();
         if (!esVacio()) {
