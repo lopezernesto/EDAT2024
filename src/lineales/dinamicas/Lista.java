@@ -112,6 +112,7 @@ public class Lista {
                 clon = clon.getEnlace();
                 aux = aux.getEnlace();
             }
+            clonada.longitud = longitud;
         }
         return clonada;
     }
