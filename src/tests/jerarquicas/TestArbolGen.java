@@ -52,7 +52,11 @@ public class TestArbolGen {
         a1.insertar(27, 54);
         a1.insertar(4, 54);
         a1.insertar(17, 27);
-        System.out.println(a1.verificarCamino(lista));
+        // System.out.println(a1.verificarCamino(lista));
+        // System.out.println(a1.listarEntreNiveles(2, 3).toString());
+        System.out.println(a1.toString());
+        System.out.println(a1.eliminar(13));
+        System.out.println(a1.toString());
 
     }
 }

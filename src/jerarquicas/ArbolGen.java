@@ -17,6 +17,80 @@ public class ArbolGen {
          */
     }
 
+    // Elimina el elemento y los subArboles del mismo
+    public boolean eliminar(Object elem) {
+        boolean exit = false;
+        if (!esVacio()) {
+            if (raiz.getElem().equals(elem)) {
+                exit = true;
+                vaciar();
+            } else {
+                exit = eliminarAux(raiz, null, elem);
+            }
+        }
+        return exit;
+    }
+
+    private boolean eliminarAux(NodoGen n, NodoGen padre, Object elem) {
+        boolean exit = false;
+        if (n != null) {
+            if (n.getElem().equals(elem)) {
+                exit = true;
+                eliminarHijo(n, padre);
+            } else {
+                NodoGen hijo = n.getHijoIzquierdo();
+                while (hijo != null && !exit) {
+                    exit = eliminarAux(hijo, n, elem);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }
+        }
+        return exit;
+    }
+
+    private void eliminarHijo(NodoGen hijo, NodoGen padre) {
+        // hijo es el nodo a eliminar
+        Object elemHijo = padre.getHijoIzquierdo().getElem();
+        Object eliminar = hijo.getElem();
+        // si elemento a eliminar es el HEI
+        if (eliminar.equals(elemHijo)) {
+            padre.setHijoIzquierdo(hijo.getHermanoDerecho());
+        } else {
+            NodoGen aux = padre.getHijoIzquierdo();
+            System.out.println(aux.getElem());
+            while (!aux.getHermanoDerecho().getElem().equals(eliminar)) {
+                aux = aux.getHermanoDerecho();
+            }
+            aux.setHermanoDerecho(hijo.getHermanoDerecho());
+        }
+
+    }
+
+    // Genera una lista con los elementos entre los niveles [min, max]
+    public Lista listarEntreNiveles(int min, int max) {
+        Lista lis = new Lista();
+        if (!esVacio() && min <= max) {
+            listarEntreNivelesAux(raiz, lis, min, max, 0);
+        }
+        return lis;
+    }
+
+    private void listarEntreNivelesAux(NodoGen n, Lista l, int min, int max, int nivel) {
+        if (n != null) {
+
+            if (nivel >= min && nivel <= max) {
+                l.insertar(n.getElem(), l.longitud() + 1);
+            }
+            if (nivel < max) {
+                NodoGen hijo = n.getHijoIzquierdo();
+                while (hijo != null) {
+                    listarEntreNivelesAux(hijo, l, min, max, nivel + 1);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }
+        }
+    }
+
     // Dado una Lista verifica que sea el camino desde la raiz hasta una hoja
     public boolean verificarCamino(Lista camino) {
         boolean exit = false;
