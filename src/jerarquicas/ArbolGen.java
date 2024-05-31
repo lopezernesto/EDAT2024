@@ -20,7 +20,7 @@ public class ArbolGen {
     // Dado una Lista verifica que sea el camino desde la raiz hasta una hoja
     public boolean verificarCamino(Lista camino) {
         boolean exit = false;
-        if (!esVacio()) {
+        if (!esVacio() && !camino.esVacia()) {
             Lista aux = camino.clone();
             exit = verificarCaminoAux(raiz, aux);
         }
@@ -30,8 +30,19 @@ public class ArbolGen {
     private boolean verificarCaminoAux(NodoGen n, Lista camino) {
         boolean exit = false;
         if (n != null) {
-            if (!camino.esVacia()) {
-
+            if (camino.esVacia()) {
+                exit = true;
+            } else {
+                if (n.getElem().equals(camino.recuperar(1))) {
+                    camino.eliminar(1);
+                    exit = verificarCaminoAux(n.getHijoIzquierdo(), camino);
+                } else {
+                    exit = verificarCaminoAux(n.getHermanoDerecho(), camino);
+                }
+            }
+        } else {
+            if (camino.esVacia()) {
+                exit = true;
             }
         }
         return exit;
@@ -40,25 +51,27 @@ public class ArbolGen {
     public Lista listaQueJustificaLaAltura() {
         Lista lis = new Lista();
         if (!esVacio()) {
-            listaAlturaAux(raiz, lis, lis);
+            lis = listaAlturaAux(raiz, lis, lis);
         }
         return lis;
     }
 
-    private void listaAlturaAux(NodoGen n, Lista actual, Lista res) {
+    private Lista listaAlturaAux(NodoGen n, Lista original, Lista listaHijo) {
         if (n != null) {
-            actual.insertar(n.getElem(), actual.longitud() + 1);
+            listaHijo.insertar(n.getElem(), listaHijo.longitud() + 1);
             NodoGen hijo = n.getHijoIzquierdo();
-            if (hijo == null) {
-                Lista clonActual = actual.clone();
-            } else {
+            if (hijo != null) {
                 while (hijo != null) {
-                    listaAlturaAux(hijo, actual, res);
+                    listaHijo = listaAlturaAux(hijo, original, listaHijo);
+                    listaHijo.eliminar(listaHijo.longitud());
                     hijo = hijo.getHermanoDerecho();
+                    if (original.longitud() < listaHijo.longitud()) {
+                        original = listaHijo;
+                    }
                 }
             }
         }
-
+        return listaHijo;
     }
 
     /*
