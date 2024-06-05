@@ -17,6 +17,28 @@ public class ArbolGen {
          */
     }
 
+    public Lista listarHojas() {
+        Lista l = new Lista();
+        if (!esVacio()) {
+            listarHojasAux(raiz, l);
+        }
+        return l;
+    }
+
+    private void listarHojasAux(NodoGen n, Lista l) {
+        if (n != null) {
+            if (n.getHijoIzquierdo() == null) {
+                l.insertar(n.getElem(), l.longitud() + 1);
+            } else {
+                NodoGen hijo = n.getHijoIzquierdo();
+                while (hijo != null) {
+                    listarHojasAux(hijo, l);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }
+        }
+    }
+
     // Elimina el elemento y los subArboles del mismo
     public boolean eliminar(Object elem) {
         boolean exit = false;
@@ -120,32 +142,6 @@ public class ArbolGen {
             }
         }
         return exit;
-    }
-
-    public Lista listaQueJustificaLaAltura() {
-        Lista lis = new Lista();
-        if (!esVacio()) {
-            lis = listaAlturaAux(raiz, lis, lis);
-        }
-        return lis;
-    }
-
-    private Lista listaAlturaAux(NodoGen n, Lista original, Lista listaHijo) {
-        if (n != null) {
-            listaHijo.insertar(n.getElem(), listaHijo.longitud() + 1);
-            NodoGen hijo = n.getHijoIzquierdo();
-            if (hijo != null) {
-                while (hijo != null) {
-                    listaHijo = listaAlturaAux(hijo, original, listaHijo);
-                    listaHijo.eliminar(listaHijo.longitud());
-                    hijo = hijo.getHermanoDerecho();
-                    if (original.longitud() < listaHijo.longitud()) {
-                        original = listaHijo;
-                    }
-                }
-            }
-        }
-        return listaHijo;
     }
 
     /*

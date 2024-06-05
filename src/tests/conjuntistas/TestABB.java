@@ -47,5 +47,8 @@ public class TestABB {
 
         System.out.println(a1.toString());
         System.out.println(a1.listarRango(200, 5));
+        System.out.println(a1.listarMayorIgual(20).toString());
+        System.out.println(a1.listarMenoresIgual(23));
+
     }
 }

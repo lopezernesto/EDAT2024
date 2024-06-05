@@ -9,6 +9,45 @@ public class ArbolBB {
 
     }
 
+    public Lista listarMenoresIgual(Comparable elem) {
+        Lista l = new Lista();
+        if (!esVacio()) {
+            menoresIgualAux(raiz, elem, l);
+        }
+        return l;
+    }
+
+    private void menoresIgualAux(NodoABB n, Comparable elem, Lista l) {
+        if (n != null) {
+            int aux = n.getElem().compareTo(elem);
+            if (aux <= 0) {
+                menoresIgualAux(n.getDerecho(), elem, l);
+                l.insertar(n.getElem(), 1);
+            }
+            menoresIgualAux(n.getIzquierdo(), elem, l);
+        }
+    }
+
+    public Lista listarMayorIgual(Comparable elem) {
+        Lista l = new Lista();
+        if (!esVacio()) {
+            mayorIgualAux(raiz, elem, l);
+        }
+        return l;
+    }
+
+    private void mayorIgualAux(NodoABB n, Comparable elem, Lista l) {
+        if (n != null) {
+            int aux = n.getElem().compareTo(elem);
+            if (aux >= 0) {
+                mayorIgualAux(n.getIzquierdo(), elem, l);
+                l.insertar(n.getElem(), 1);
+            }
+            mayorIgualAux(n.getDerecho(), elem, l);
+
+        }
+    }
+
     public boolean eliminar(Comparable elem) {
         boolean exit = false;
         if (!esVacio()) {
