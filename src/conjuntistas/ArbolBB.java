@@ -9,6 +9,43 @@ public class ArbolBB {
 
     }
 
+    // Dado un elemento busca el nodo y clona el subarbol de ese nodo
+    public ArbolBB clonarInvertido(Comparable elem) {
+        ArbolBB arbol = new ArbolBB();
+        if (!esVacio()) {
+            arbol.raiz = buscarElem(raiz, elem);
+        }
+        return arbol;
+    }
+
+    private NodoABB buscarElem(NodoABB n, Comparable elem) {
+        NodoABB a = null;
+        if (n != null) {
+            int aux = n.getElem().compareTo(elem);
+            if (aux == 0) {
+                a = clonarInvertido(n);
+            } else {
+                if (aux < 0) {
+                    a = buscarElem(n.getDerecho(), elem);
+                } else {
+                    a = buscarElem(n.getIzquierdo(), elem);
+                }
+            }
+        }
+        return a;
+
+    }
+
+    private NodoABB clonarInvertido(NodoABB original) {
+        NodoABB nuevo = null;
+        if (original != null) {
+            nuevo = new NodoABB(original.getElem(), null, null);
+            nuevo.setDerecho(clonarInvertido(original.getIzquierdo()));
+            nuevo.setIzquierdo(clonarInvertido(original.getDerecho()));
+        }
+        return nuevo;
+    }
+
     public Lista listarMenoresIgual(Comparable elem) {
         Lista l = new Lista();
         if (!esVacio()) {
@@ -133,7 +170,7 @@ public class ArbolBB {
         return cant;
     }
 
-    public Comparable mayorIzquierda(Comparable elem, NodoABB n, NodoABB padre) {
+    private Comparable mayorIzquierda(Comparable elem, NodoABB n, NodoABB padre) {
         Comparable candidato = null;
 
         if (n.getDerecho() == null) {

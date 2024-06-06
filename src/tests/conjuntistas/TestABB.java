@@ -45,10 +45,22 @@ public class TestABB {
         a1.insertar(200);
         a1.insertar(139);
 
-        System.out.println(a1.toString());
-        System.out.println(a1.listarRango(200, 5));
-        System.out.println(a1.listarMayorIgual(20).toString());
-        System.out.println(a1.listarMenoresIgual(23));
+        // System.out.println(a1.toString());
+        // System.out.println(a1.listarRango(200, 5));
+        // System.out.println(a1.listarMayorIgual(20).toString());
+        // System.out.println(a1.listarMenoresIgual(23));
+        // System.out.println(a1.clonarInvertido(123).toString());
+        ArbolBB x = new ArbolBB();
+        x.insertar(16);
+        x.insertar(10);
+        x.insertar(7);
+        x.insertar(24);
+        x.insertar(20);
+        x.insertar(18);
+        x.insertar(22);
+        x.insertar(26);
+        System.out.println(x.toString());
+        System.out.println(x.listarMenoresIgual(24).toString());
 
     }
 }
