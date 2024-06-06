@@ -57,7 +57,9 @@ public class TestArbolGen {
         System.out.println(a1.toString());
         // System.out.println(a1.eliminar(13));
         // System.out.println(a1.toString());
-        System.out.println(a1.listarHojas().toString());
+        // System.out.println(a1.listarHojas().toString());
+        // System.out.println(a1.sobrinos(54).toString());
+        System.out.println(a1.grado());
 
     }
 }

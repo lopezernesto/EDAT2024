@@ -17,6 +17,69 @@ public class ArbolGen {
          */
     }
 
+    public int grado() {
+        int grado = -1;
+        if (!esVacio()) {
+            int[] aux = { 0 };
+            gradoAux(raiz, aux);
+            grado = aux[0];
+        }
+        return grado;
+    }
+
+    private void gradoAux(NodoGen n, int[] mayorGrado) {
+        int gradoActual = 0;
+        if (n != null) {
+            NodoGen hijo = n.getHijoIzquierdo();
+            while (hijo != null) {
+                gradoActual++;
+                gradoAux(hijo, mayorGrado);
+                hijo = hijo.getHermanoDerecho();
+            }
+            if (gradoActual > mayorGrado[0]) {
+                mayorGrado[0] = gradoActual;
+            }
+
+        }
+
+    }
+
+    // Lista todos los sobrinos de un elemento (hijos de hermanos)
+    public Lista sobrinos(Object elem) {
+        Lista l = new Lista();
+        if (!esVacio()) {
+            buscarTio(raiz, null, elem, l);
+        }
+        return l;
+    }
+
+    private void buscarTio(NodoGen n, NodoGen padre, Object elem, Lista l) {
+        if (n != null) {
+            if (n.getElem().equals(elem)) {
+                listarSobrinos(padre.getHijoIzquierdo(), padre, l, elem);
+            } else {
+                NodoGen hijo = n.getHijoIzquierdo();
+                while (hijo != null) {
+                    buscarTio(hijo, n, elem, l);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }
+        }
+    }
+
+    private void listarSobrinos(NodoGen n, NodoGen padre, Lista l, Object elem) {
+        if (n != null) {
+            if (!n.getElem().equals(elem)) {
+                NodoGen sobrino = n.getHijoIzquierdo();
+                while (sobrino != null) {
+                    l.insertar(sobrino.getElem(), l.longitud() + 1);
+                    sobrino = sobrino.getHermanoDerecho();
+                }
+            }
+            listarSobrinos(n.getHermanoDerecho(), padre, l, elem);
+        }
+    }
+
     public Lista listarHojas() {
         Lista l = new Lista();
         if (!esVacio()) {
