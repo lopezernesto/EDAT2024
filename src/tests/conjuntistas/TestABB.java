@@ -1,6 +1,6 @@
 package tests.conjuntistas;
 
-import conjuntistas.ArbolBB;
+import conjuntistas.dinamicas.ArbolBB;
 
 public class TestABB {
     public static void main(String[] args) {
