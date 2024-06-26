@@ -184,4 +184,99 @@ public class Lista {
         }
         longitud -= cant;
     }
+
+    // Inserta elemento y lo repite cada X posiciones
+    public void insertarYRepetir(Object elem, int salto) {
+        Nodo aux = cabecera;
+        int cont = salto, i = 0;
+        while (aux != null) {
+            if (i == 0) {
+                cabecera = new Nodo(elem, aux);
+                i++;
+            }
+            if (cont == salto + 1) {
+                aux.setEnlace(new Nodo(elem, aux.getEnlace()));
+                cont = 0;
+            }
+            aux = aux.getEnlace();
+            cont++;
+        }
+    }
+
+    // Lo mismo que el anterior pero recursivo
+    public void insertarYRepetir2(Object elem, int salto) {
+        if (!esVacia()) {
+            int cont = salto;
+            insertarYRepetirAux(cabecera, elem, salto, cont);
+        }
+    }
+
+    private void insertarYRepetirAux(Nodo n, Object elem, int salto, int cont) {
+        if (n != null) {
+            if (n == cabecera) {
+                cabecera = new Nodo(elem, n.getEnlace());
+                insertarYRepetirAux(n.getEnlace(), elem, salto, cont + 1);
+            } else {
+                if (cont == salto) {
+                    n.setElem(new Nodo(elem, n.getEnlace()));
+                    insertarYRepetirAux(n.getEnlace(), elem, salto, cont + 1);
+                } else {
+                    insertarYRepetirAux(n.getEnlace(), elem, salto, cont + 1);
+                }
+            }
+
+        }
+    }
+
+    // Mueve el elemento de "pos" a la anteultima posicion
+    public boolean moverAAnteultimaPosicion(int pos) {
+        boolean exit = false;
+        if (longitud() > 0 && pos > 0 && pos <= longitud() && pos != longitud() - 1) {
+            exit = true;
+            Nodo elem;
+            Nodo aux = cabecera;
+            int i = 1;
+            // Si esta en la cabecera
+            if (pos == 1) {
+                elem = cabecera;
+                cabecera = cabecera.getEnlace();
+                while (i <= longitud() - 1) {
+                    aux = aux.getEnlace();
+                    i++;
+                }
+                elem.setEnlace(aux.getEnlace());
+                aux.setEnlace(elem);
+
+            } else {
+                // Si esta en la ultima posicion
+                if (pos == longitud()) {
+                    while (i < longitud() - 2) {
+                        aux = aux.getEnlace();
+                        i++;
+                    }
+                    // aux es mi anterior al anteultimo
+                    elem = aux.getEnlace().getEnlace();
+                    aux.getEnlace().setEnlace(null);
+                    elem.setEnlace(aux.getEnlace());
+                    aux.setEnlace(elem);
+                } else {
+                    // Si esta dentro dentro de la Lista
+                    while (i < pos - 1) {
+                        aux = aux.getEnlace();
+                        i++;
+                    }
+                    elem = aux.getEnlace();
+                    aux.setEnlace(aux.getEnlace().getEnlace());
+                    i++;
+                    while (i < longitud() - 1) {
+                        aux = aux.getEnlace();
+                        i++;
+                    }
+                    elem.setEnlace(aux.getEnlace());
+                    aux.setEnlace(elem);
+                }
+            }
+        }
+        return exit;
+    }
 }

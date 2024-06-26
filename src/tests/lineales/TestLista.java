@@ -15,9 +15,14 @@ public class TestLista {
         l.insertar('H', 8);
         l.insertar('A', 9);
         System.out.println(l.toString());
-        l.eliminarApariciones('A');
+        // l.insertarYRepetir('X', 2);
+        // System.out.println(l.toString());
+        System.out.println(l.moverAAnteultimaPosicion(3));
         System.out.println(l.toString());
         /*
+         * l.eliminarApariciones('A');
+         * System.out.println(l.toString());
+         * 
          * System.out.println(l.insertar(1, 1) + " inserto 1");
          * System.out.println(l.insertar(2, 1) + " inserto 2");
          * System.out.println(l.insertar(3, 1) + " inserto 3");
