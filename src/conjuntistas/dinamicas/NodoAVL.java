@@ -20,7 +20,6 @@ public class NodoAVL {
     }
 
     public int getAltura() {
-        recalcularAltura();
         return altura;
     }
 
