@@ -279,4 +279,73 @@ public class Lista {
         }
         return exit;
     }
+
+    // Dada una Lista L2 devuelve a la lista intercalada con los elementos de L2
+    public Lista intercalar(Lista lista) {
+        Lista intercalada = new Lista();
+        Nodo original = cabecera, segunda = lista.cabecera, ret;
+        // si original es vacia y mi otra lista no?
+        if (original != null && segunda != null) {
+            intercalada.cabecera = new Nodo(original.getElem(), null);
+            ret = intercalada.cabecera;
+            int cant = intercalarAux(original.getEnlace(), segunda, ret);
+            intercalada.longitud = cant;
+        }
+        return intercalada;
+    }
+
+    private int intercalarAux(Nodo original, Nodo segunda, Nodo resultado) {
+        int cant = 0;
+        while (original != null || segunda != null) {
+            if (segunda != null) {
+                resultado.setEnlace(new Nodo(segunda.getElem(), null));
+                resultado = resultado.getEnlace();
+                segunda = segunda.getEnlace();
+                cant++;
+            }
+            if (original != null) {
+                resultado.setEnlace(new Nodo(original.getElem(), null));
+                resultado = resultado.getEnlace();
+                original = original.getEnlace();
+                cant++;
+            }
+        }
+        return cant;
+    }
+
+    // Invertir sin estructuras y de un recorrido
+    public void invertir() {
+        Nodo aux = cabecera, nuevo = null, anterior = null, siguiente = aux.getEnlace();
+        while (aux != null) {
+            System.out.println("Estoy en: " + aux.getElem());
+
+            nuevo = aux;
+            nuevo.setEnlace(anterior);
+            anterior = nuevo;
+            aux = siguiente;
+            if (siguiente != null) {
+                siguiente = siguiente.getEnlace();
+            }
+        }
+        cabecera = nuevo;
+    }
+
+    public void invertir2() {
+        if (cabecera != null) {
+            invertirAux(cabecera, cabecera.getEnlace(), null);
+        }
+
+    }
+
+    public void invertirAux(Nodo actual, Nodo siguiente, Nodo anterior) {
+        if (actual != null) {
+            if (siguiente == null) {
+                actual.setEnlace(anterior);
+                cabecera = actual;
+            } else {
+                actual.setEnlace(anterior);
+                invertirAux(siguiente, siguiente.getEnlace(), actual);
+            }
+        }
+    }
 }
