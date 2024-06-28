@@ -67,19 +67,138 @@ public class TestCadenas {
         return nueva;
     }
 
+    // Dado una cola, verifica los capicuas de una cola de Char separados por $
+    public static int cuentaSecuencias(Cola c) {
+        int cont = 0;
+        Cola c1 = c.clone();
+        if (!c1.esVacia()) {
+            Cola c2 = new Cola();
+            Object frente = c1.obtenerFrente();
+            Pila p = new Pila();
+            while (frente != null) {
+                if (frente.equals('$')) {
+                    if (iguales(p, c2))
+                        cont++;
+                } else {
+                    p.apilar(frente);
+                    c2.poner(frente);
+                }
+                c1.sacar();
+                frente = c1.obtenerFrente();
+            }
+            if (iguales(p, c2))
+                cont++;
+        }
+        return cont;
+    }
+
+    private static boolean iguales(Pila p, Cola c) {
+        boolean exit = true;
+        Object tope = p.obtenerTope();
+        while (exit && tope != null) {
+            if (!p.obtenerTope().equals(c.obtenerFrente())) {
+                exit = false;
+            } else {
+                p.desapilar();
+                c.sacar();
+            }
+            tope = p.obtenerTope();
+
+        }
+        p.vaciar();
+        c.vaciar();
+        return exit;
+    }
+
+    public static boolean verificarBalanceo(Cola c) {
+        boolean exit = true;
+        if (!c.esVacia()) {
+            Cola c1 = c.clone(), c2 = new Cola();
+            Pila p = new Pila();
+            Object frente = c1.obtenerFrente();
+            while (frente != null) {
+                if (frente.equals('(') || frente.equals(')') || frente.equals('[') || frente.equals(']')
+                        || frente.equals('{') || frente.equals('}')) {
+                    p.apilar(frente);
+                    c2.poner(frente);
+                }
+                c1.sacar();
+                frente = c1.obtenerFrente();
+            }
+            exit = verificar(p, c2);
+        }
+        return exit;
+    }
+
+    private static boolean verificar2(Pila p, Cola c) {
+        boolean exit = true;
+        Pila invertida = new Pila();
+        Object tope = p.obtenerTope();
+        while (tope != null) {
+            invertida.apilar(tope);
+            p.desapilar();
+            tope = p.obtenerTope();
+        }
+        tope = invertida.obtenerTope();
+        while (exit && tope != null) {
+            System.out.println("tope: " + tope + " frente: " + c.obtenerFrente());
+            if (!tope.equals(c.obtenerFrente())) {
+                exit = false;
+            } else {
+                invertida.desapilar();
+                c.sacar();
+                tope = invertida.obtenerTope();
+            }
+        }
+        return exit;
+    }
+
     public static void main(String[] args) {
-        Cola c = new Cola(), resultado;
+        Cola c = new Cola(), cola = new Cola();
+        cola.poner('{');
+        cola.poner('5');
+        cola.poner('+');
+        cola.poner('[');
+        cola.poner('8');
+        cola.poner('*');
+        cola.poner('9');
+        cola.poner('-');
+        cola.poner('(');
+        cola.poner('4');
+        cola.poner('/');
+        cola.poner('2');
+        cola.poner(')');
+        cola.poner('+');
+        cola.poner('7');
+        cola.poner(']');
+        cola.poner('-');
+        cola.poner('1');
+        cola.poner('}');
+
+        // ABCBA$CDDE$AFCCFA
         c.poner('A');
         c.poner('B');
-        c.poner('#');
         c.poner('C');
-        c.poner('#');
+        c.poner('B');
+        c.poner('A');
+        c.poner('$');
+        c.poner('C');
+        c.poner('D');
         c.poner('D');
         c.poner('E');
+        c.poner('$');
+        c.poner('A');
         c.poner('F');
-        System.out.println("La cola original es: " + c.toString());
-        resultado = generar(c);
-        System.out.println("La nueva cola es: " + resultado.toString());
+        c.poner('C');
+        c.poner('C');
+        c.poner('F');
+        c.poner('A');
+        System.out.println(cola.toString());
+        System.out.println(verificarBalanceo(cola));
+        // System.out.println(cuentaSecuencias(cola));
+        // System.out.println("La cola original es: " + c.toString());
+        // resultado = generar(c);
+        // System.out.println("La nueva cola es: " + resultado.toString());
     }
 
 }
