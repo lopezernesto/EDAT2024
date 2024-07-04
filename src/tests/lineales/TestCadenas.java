@@ -137,11 +137,7 @@ public class TestCadenas {
         return exit;
     }
 
-<<<<<<< HEAD
-    private static boolean verificar(Pila p, Cola c) {
-=======
     private static boolean verificar(Object elem, Pila p) {
->>>>>>> bbefb1f2874859c7816a4bf0006c8c977ca58b6f
         boolean exit = true;
         char cierre = (char) elem;
         char tope = (char) p.obtenerTope();
