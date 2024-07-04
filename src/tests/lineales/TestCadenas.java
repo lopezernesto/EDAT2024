@@ -130,7 +130,7 @@ public class TestCadenas {
         return exit;
     }
 
-    private static boolean verificar2(Pila p, Cola c) {
+    private static boolean verificar(Pila p, Cola c) {
         boolean exit = true;
         Pila invertida = new Pila();
         Object tope = p.obtenerTope();
