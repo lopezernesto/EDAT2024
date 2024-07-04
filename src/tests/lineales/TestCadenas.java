@@ -1,6 +1,7 @@
 package tests.lineales;
 
 import lineales.dinamicas.Cola;
+import lineales.dinamicas.Lista;
 import lineales.dinamicas.Pila;
 
 public class TestCadenas {
@@ -116,38 +117,114 @@ public class TestCadenas {
             Cola c1 = c.clone(), c2 = new Cola();
             Pila p = new Pila();
             Object frente = c1.obtenerFrente();
-            while (frente != null) {
-                if (frente.equals('(') || frente.equals(')') || frente.equals('[') || frente.equals(']')
-                        || frente.equals('{') || frente.equals('}')) {
+            while (frente != null && exit) {
+
+                if (frente.equals('(') || frente.equals('[') || frente.equals('{')) {
                     p.apilar(frente);
-                    c2.poner(frente);
+                } else {
+                    if (frente.equals(')') || frente.equals(']') || frente.equals('}')) {
+
+                        exit = verificar(frente, p);
+                        if (exit)
+                            p.desapilar();
+                    }
                 }
                 c1.sacar();
                 frente = c1.obtenerFrente();
             }
-            exit = verificar(p, c2);
+
         }
         return exit;
     }
 
+<<<<<<< HEAD
     private static boolean verificar(Pila p, Cola c) {
+=======
+    private static boolean verificar(Object elem, Pila p) {
+>>>>>>> bbefb1f2874859c7816a4bf0006c8c977ca58b6f
         boolean exit = true;
-        Pila invertida = new Pila();
-        Object tope = p.obtenerTope();
-        while (tope != null) {
-            invertida.apilar(tope);
-            p.desapilar();
-            tope = p.obtenerTope();
+        char cierre = (char) elem;
+        char tope = (char) p.obtenerTope();
+        System.out.println(cierre + " y " + tope);
+        switch (cierre) {
+            case ')':
+                if (tope != '(')
+                    exit = false;
+                break;
+            case ']':
+                if (tope != '[')
+                    exit = false;
+                break;
+            case '}':
+                if (tope != '{')
+                    exit = false;
+                break;
+            default:
+                break;
         }
-        tope = invertida.obtenerTope();
-        while (exit && tope != null) {
-            System.out.println("tope: " + tope + " frente: " + c.obtenerFrente());
-            if (!tope.equals(c.obtenerFrente())) {
-                exit = false;
+
+        return exit;
+    }
+
+    public static boolean comprobar(Lista l) {
+        // candena0cadena0cadena*
+        boolean exit = true;
+        Object elem = l.recuperar(1);
+        int i = 1, longitud = l.longitud();
+        if (!l.esVacia()) {
+            // caso de cadena nula
+            if (elem.equals(0)) {
+                // Si la cadena empieza con un 0 es porque va a ser la cadena nula.
+                if ((longitud != 2 || !l.recuperar(2).equals(0))) {
+                    // Si la longitud es distinta a 2 o el segundo elemento no es 0...
+                    exit = false;
+                }
             } else {
-                invertida.desapilar();
-                c.sacar();
-                tope = invertida.obtenerTope();
+                Cola c = new Cola();
+                Pila inv = new Pila();
+                while (i <= longitud && !elem.equals(0)) {
+                    System.out.println("apilo el " + elem);
+                    c.poner(elem);
+                    inv.apilar(elem);
+                    i++;
+                    elem = l.recuperar(i);
+                }
+                // Si termino de recorrer la lista es porque no tenia 0 que separen
+                if (i == longitud) {
+                    exit = false;
+                } else {
+                    i++;
+                    elem = l.recuperar(i);
+                    while (exit && i <= longitud && !elem.equals(0)) {
+                        System.out.println("Elem " + elem + " frente: " + c.obtenerFrente());
+                        if (!elem.equals(c.obtenerFrente())) {
+                            exit = false;
+                        }
+                        c.sacar();
+                        i++;
+                        elem = l.recuperar(i);
+                    }
+                    // Si termino de recorrer o c no es vacia es porque era una cadena de tipo:
+                    // cad0cad o cad0cad0 o cad0cad2
+                    if (i == longitud || !c.esVacia()) {
+                        exit = false;
+                    } else {
+                        i++;
+                        while (exit && i <= longitud) {
+                            elem = l.recuperar(i);
+                            System.out.println("Elem: " + elem + " Tope: " + inv.obtenerTope());
+                            if (!elem.equals(inv.obtenerTope())) {
+                                exit = false;
+                            }
+                            inv.desapilar();
+                            i++;
+                        }
+                        // Si inv no es vacia es porque es cad0cad0cad2
+                        if (!inv.esVacia()) {
+                            exit = false;
+                        }
+                    }
+                }
             }
         }
         return exit;
@@ -155,25 +232,27 @@ public class TestCadenas {
 
     public static void main(String[] args) {
         Cola c = new Cola(), cola = new Cola();
-        cola.poner('{');
-        cola.poner('5');
-        cola.poner('+');
-        cola.poner('[');
-        cola.poner('8');
-        cola.poner('*');
-        cola.poner('9');
-        cola.poner('-');
-        cola.poner('(');
-        cola.poner('4');
-        cola.poner('/');
-        cola.poner('2');
-        cola.poner(')');
-        cola.poner('+');
-        cola.poner('7');
-        cola.poner(']');
-        cola.poner('-');
-        cola.poner('1');
-        cola.poner('}');
+        Lista l = new Lista(), l1 = new Lista();
+        l1.insertar(1, 1);
+        l1.insertar(0, 2);
+        l1.insertar(1, 3);
+        l1.insertar(0, 4);
+        l1.insertar(1, 5);
+        l1.insertar(0, 6);
+        l1.insertar(1, 7);
+
+        // 9,6,5,0,9,6,5,0,5,6,9
+        l.insertar(9, 1);
+        l.insertar(6, 2);
+        l.insertar(5, 3);
+        l.insertar(0, 4);
+        l.insertar(9, 5);
+        l.insertar(6, 6);
+        l.insertar(5, 7);
+        l.insertar(0, 8);
+        l.insertar(5, 9);
+        l.insertar(6, 10);
+        l.insertar(9, 11);
 
         // ABCBA$CDDE$AFCCFA
         c.poner('A');
@@ -193,8 +272,8 @@ public class TestCadenas {
         c.poner('C');
         c.poner('F');
         c.poner('A');
-        System.out.println(cola.toString());
-        System.out.println(verificarBalanceo(cola));
+        // System.out.println(cola.toString());
+        System.out.println(comprobar(l1));
         // System.out.println(cuentaSecuencias(cola));
         // System.out.println("La cola original es: " + c.toString());
         // resultado = generar(c);

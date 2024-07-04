@@ -1,12 +1,9 @@
 package tests.lineales;
 
-	//import lineales.estaticas.Cola;
-	 import lineales.dinamicas.Cola;
-
-
+//import lineales.estaticas.Cola;
+import lineales.dinamicas.Cola;
 
 public class TestingCola {
-
 
 	/**
 	 *
@@ -24,15 +21,16 @@ public class TestingCola {
 		System.out.println("COMIENZO TEST COLA");
 		Cola q1 = new Cola();
 		System.out.println("Cola vacia: \t\t\t\t\t\t\t--> " + q1.toString());
-		
 
 		System.out.println("Si es cola estatica tamaño <= 10 se debe llenar");
 		int num = 1;
 		while (num < 12) {
 			if (num < 10) {
-				System.out.print("Pone " + num + " espera true: \t\t\t\t\t" + ((q1.poner(num) == true) ? sOk : sErr));
+				System.out
+						.print("Pone " + num + " espera true: \t\t\t\t\t" + ((q1.poner(num) == true) ? sOk : sErr));
 			} else {
-				System.out.print("Pone " + num + " espera false en estatica y true en dinamica : \t" + q1.poner(num));
+				System.out
+						.print("Pone " + num + " espera false en estatica y true en dinamica : \t" + q1.poner(num));
 			}
 			num++;
 			System.out.println("\t--> " + q1.toString());
