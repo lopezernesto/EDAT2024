@@ -11,39 +11,39 @@ public class NodoVert {
     }
 
     public boolean equals(NodoVert vertice) {
-        return nombre.equals(vertice.getNombre());
+        return nombre.equals(vertice.nombre);
     }
 
     public boolean insertarArco(NodoVert destino, int tiempo) {
         boolean exit = false;
         if (primerArco == null) {
             primerArco = new NodoAdy(destino, tiempo);
+            exit = true;
         } else {
             NodoAdy aux = primerArco;
-            while (!exit && aux.getSiguiente() != null) {
+            NodoAdy anterior = null;
+            while (!exit && aux != null) {
                 exit = aux.getVertice().equals(destino);
+                anterior = aux;
                 aux = aux.getSiguiente();
             }
-            if (exit)
-                aux.setSiguiente(new NodoAdy(destino, tiempo));
+            if (!exit && anterior != null)
+                anterior.setSiguiente(new NodoAdy(destino, tiempo));
         }
-        return !exit;
+
+        return exit;
     }
 
     public boolean eliminarArco(NodoVert destino) {
         boolean exit = false;
-        // Dado un vertice que eliminaremos
+
         NodoAdy aux = primerArco, anterior = null;
-        // Para cada arco que haya en este vertice
         while (aux != null) {
-            // Verificamos que sea con el que borraremos
             if (aux.getVertice().equals(destino)) {
                 exit = true;
                 if (anterior == null) {
-                    // Si esta en la primer posicion
                     primerArco = primerArco.getSiguiente();
                 } else {
-                    // Si no esta en una posicion intermedia-final
                     anterior.setSiguiente(aux.getSiguiente());
                 }
             }
@@ -77,4 +77,17 @@ public class NodoVert {
         this.nombre = nombre;
     }
 
+    @Override
+    public String toString() {
+        String cad = "No tiene conexiones";
+        if (primerArco != null) {
+            cad = "";
+            NodoAdy arco = primerArco;
+            while (arco != null) {
+                cad += "------>" + arco.getVertice().nombre + "\n";
+                arco = arco.getSiguiente();
+            }
+        }
+        return cad;
+    }
 }

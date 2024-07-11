@@ -24,7 +24,7 @@ public class Grafo {
                 exit = aux.getNombre().equals(nombreCiudad);
                 aux = aux.getSiguienteVertice();
             }
-            if (exit)
+            if (aux != null)
                 // Si no encuentra una ciudad con ese nombre la inserta como enlace al ultimo
                 aux.setSiguienteVertice(new NodoVert(nombreCiudad));
         }
@@ -131,6 +131,7 @@ public class Grafo {
                     encontrado = true;
                     // exit verifica si se pudo o no agregar el arco
                     exit = origen.insertarArco(destino, tiempo);
+                    destino.insertarArco(origen, tiempo);
                 }
                 aux = aux.getSiguienteVertice();
             }
@@ -153,12 +154,27 @@ public class Grafo {
                     origen = aux;
                 if (origen != null && destino != null) {
                     encontrado = true;
-                    exit = aux.eliminarArco(destino);
-                    destino.eliminarArco(aux);
+                    exit = origen.eliminarArco(destino);
+                    destino.eliminarArco(origen);
                 }
                 aux = aux.getSiguienteVertice();
             }
         }
         return exit;
+    }
+
+    @Override
+    public String toString() {
+        String cad = "Grafo vacio";
+        if (inicio != null) {
+            cad = "";
+            NodoVert aux = inicio;
+            while (aux != null) {
+                cad += aux.getNombre() + ": " + "\n";
+                cad += aux.toString() + "\n" + "----------" + "\n";
+                aux = aux.getSiguienteVertice();
+            }
+        }
+        return cad;
     }
 }
